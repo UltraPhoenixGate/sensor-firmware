@@ -7,6 +7,7 @@ extern const char *PARAM_MESSAGE;
 
 void handleRoot(AsyncWebServerRequest *request);
 void handleJsonData(AsyncWebServerRequest *request);
+void handleMetricsData(AsyncWebServerRequest *request);
 void notFound(AsyncWebServerRequest *request);
 
 #endif // API_BASE_H

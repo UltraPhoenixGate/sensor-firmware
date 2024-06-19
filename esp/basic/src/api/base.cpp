@@ -2,8 +2,6 @@
 #include "ArduinoJson.h"
 #include "base.h"
 
-const char *PARAM_MESSAGE = "message";
-
 void handleRoot(AsyncWebServerRequest *request)
 {
   request->send(200, "text/plain", "Hello!");
@@ -24,6 +22,17 @@ void handleJsonData(AsyncWebServerRequest *request)
 
   response->setLength();
   request->send(response);
+}
+
+void handleMetricsData(AsyncWebServerRequest *request)
+{
+  String metrics = "";
+  String labels = "id=\"a6p3tya59uqYBZ\",area=\"区域A\"";
+  metrics += "temperature{" + labels + "} 25.0\n";
+  metrics += "humidity{" + labels + "} 50.0\n";
+  // 设置响应头
+  AsyncWebServerResponse *metricsResponse = request->beginResponse(200, "text/plain", metrics);
+  request->send(metricsResponse);
 }
 
 void notFound(AsyncWebServerRequest *request)
