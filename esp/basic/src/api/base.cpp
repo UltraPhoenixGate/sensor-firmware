@@ -17,8 +17,6 @@ void handleJsonData(AsyncWebServerRequest *request)
   data["humidity"] = 50.0;
 
   JsonObject labels = root["labels"].to<JsonObject>();
-  labels["id"] = "a6p3tya59uqYBZ";
-  labels["area"] = "区域A";
 
   response->setLength();
   request->send(response);
@@ -27,9 +25,8 @@ void handleJsonData(AsyncWebServerRequest *request)
 void handleMetricsData(AsyncWebServerRequest *request)
 {
   String metrics = "";
-  String labels = "id=\"a6p3tya59uqYBZ\",area=\"区域A\"";
-  metrics += "temperature{" + labels + "} 25.0\n";
-  metrics += "humidity{" + labels + "} 50.0\n";
+  metrics += "temperature 25.0\n";
+  metrics += "humidity 50.0\n";
   // 设置响应头
   AsyncWebServerResponse *metricsResponse = request->beginResponse(200, "text/plain", metrics);
   request->send(metricsResponse);
