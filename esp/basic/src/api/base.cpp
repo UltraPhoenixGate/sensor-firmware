@@ -1,6 +1,13 @@
 #include "AsyncJson.h"
 #include "ArduinoJson.h"
 #include "base.h"
+#include "dht11.h"
+
+#ifndef DHT11_PIN
+#define DHT11_PIN D4
+#endif
+
+dht11 dht11Inst;
 
 void handleRoot(AsyncWebServerRequest *request)
 {
@@ -9,12 +16,13 @@ void handleRoot(AsyncWebServerRequest *request)
 
 void handleJsonData(AsyncWebServerRequest *request)
 {
+  dht11Inst.read(DHT11_PIN);
   AsyncJsonResponse *response = new AsyncJsonResponse();
   JsonObject root = response->getRoot();
 
   JsonObject data = root["data"].to<JsonObject>();
-  data["temperature"] = 25.0;
-  data["humidity"] = 50.0;
+  data["temperature"] = dht11Inst.temperature;
+  data["humidity"] = dht11Inst.humidity;
 
   JsonObject labels = root["labels"].to<JsonObject>();
 

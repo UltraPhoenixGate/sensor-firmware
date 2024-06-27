@@ -36,7 +36,6 @@ void setup()
 
   connectToWiFi(ssid, password);
   setupRoutes(server);
-
   server.begin();
   screenStatus();
 }
