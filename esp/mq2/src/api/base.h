@@ -6,7 +6,6 @@
 extern const char *PARAM_MESSAGE;
 
 void handleRoot(AsyncWebServerRequest *request);
-void handleMetadata(AsyncWebServerRequest *request);
 void handleJsonData(AsyncWebServerRequest *request);
 void handleMetricsData(AsyncWebServerRequest *request);
 void notFound(AsyncWebServerRequest *request);

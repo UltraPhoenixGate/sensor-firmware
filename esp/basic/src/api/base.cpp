@@ -4,7 +4,7 @@
 #include "dht11.h"
 
 #ifndef DHT11_PIN
-#define DHT11_PIN D4
+#define DHT11_PIN GPIO_NUM_2
 #endif
 
 dht11 dht11Inst;
@@ -12,6 +12,27 @@ dht11 dht11Inst;
 void handleRoot(AsyncWebServerRequest *request)
 {
   request->send(200, "text/plain", "Hello!");
+}
+
+void handleMetadata(AsyncWebServerRequest *request)
+{
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject root = response->getRoot();
+
+  JsonObject metadata = root["metadata"].to<JsonObject>();
+  metadata["name"] = "DHT11 温湿度传感器";
+  metadata["description"] = "DHT11 温湿度传感器数据采集";
+  metadata["version"] = 1;
+
+  JsonArray entrypoints = root["entrypoints"].to<JsonArray>();
+  JsonObject entrypoint = entrypoints.add<JsonObject>();
+  entrypoint["path"] = "/data/json";
+  entrypoint["description"] = "获取温湿度数据";
+  entrypoint["method"] = "GET";
+  entrypoint["type"] = "json";
+
+  response->setLength();
+  request->send(response);
 }
 
 void handleJsonData(AsyncWebServerRequest *request)
